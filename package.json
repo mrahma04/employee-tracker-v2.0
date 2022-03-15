@@ -1,0 +1,24 @@
+{
+  "name": "employee-tracker-v2.0",
+  "version": "1.0.0",
+  "description": "### User Story ``` AS A business owner I WANT to be able to view and manage the departments, roles, and employees in my company SO THAT I can organize and plan my business ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrahma04/employee-tracker-v2.0.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrahma04/employee-tracker-v2.0/issues"
+  },
+  "homepage": "https://github.com/mrahma04/employee-tracker-v2.0#readme",
+  "dependencies": {
+    "mysql2": "^2.3.3"
+  }
+}
