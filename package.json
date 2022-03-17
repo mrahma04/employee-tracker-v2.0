@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/mrahma04/employee-tracker-v2.0#readme",
   "dependencies": {
+    "inquirer": "^8.2.0",
     "mysql2": "^2.3.3"
   }
 }
