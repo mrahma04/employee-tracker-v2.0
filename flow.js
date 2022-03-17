@@ -8,6 +8,7 @@ const addDepartment = () => {
             message: 'Enter Department name:'
         }
     ]).then(answers => {
+        console.log(answers)
         console.log(`ADD DEPARTMENT SQL FUNCTION GOES HERE`)
         continuePrompt()
     })
@@ -31,6 +32,7 @@ const addRole = () => {
             message: 'Enter Role department:'
         }
     ]).then(answers => {
+        console.log(answers)
         console.log(`ADD ROLE SQL FUNCTION GOES HERE`)
         continuePrompt()
     })
@@ -41,29 +43,53 @@ const addEmployee = () => {
         {
             type: 'input',
             name: 'firstName',
-            message: `Enter employee's first name:`
+            message: `Enter new employee's first name:`
         },
         {
             type: 'input',
             name: 'lastName',
-            message: `Enter employee's last name:`
+            message: `Enter new employee's last name:`
         },
         {
             type: 'input',
             name: 'employeeRole',
-            message: `Enter employee's role:`
+            message: `Enter new employee's role:`
         },
         {
             type: 'input',
             name: 'employeeManager',
-            message: `Enter employee's manager:`
+            message: `Enter new employee's manager:`
         }
     ]).then(answers => {
+        console.log(answers)
         console.log(`ADD EMPLOYEE SQL FUNCTION GOES HERE`)
         continuePrompt()
     })
 }
 
+const employeeList = ['Malia Brown', 'Sarah Lourd']
+const roleList = ['Salesperson', 'Lead Engineer']
+
+const updateEmployee = () => {
+    return inquirer.prompt([
+        {
+            type: 'list',
+            name: 'employeeName',
+            message: `Which employee's role would you like to update?`,
+            choices: employeeList
+        },
+        {
+            type: 'list',
+            name: 'employeeRole',
+            message: `Select new role:`,
+            choices: roleList
+        }
+    ]).then(answers => {
+        console.log(answers)
+        console.log(`UPDATE EMPLOYEE SQL FUNCTION GOES HERE`)
+        continuePrompt()
+    })
+}
 
 const initialPrompt = () => {
     return inquirer.prompt([
@@ -71,7 +97,7 @@ const initialPrompt = () => {
             type: 'list',
             name: 'task',
             message: 'What would you like to do?',
-            choices: ['View all Departments', 'View all Roles', 'View all Employees', 'Add a Department', 'Add a Role', 'Add an Employee', 'Done']
+            choices: ['View all Departments', 'View all Roles', 'View all Employees', 'Add a Department', 'Add a Role', 'Add an Employee ', 'Update an Employee Role', 'Done']
         }
     ]).then(answers => {
         if (answers.task === 'View all Departments') {
@@ -97,6 +123,10 @@ const initialPrompt = () => {
         if (answers.task === 'Add an Employee') {
             // console.log(`ADD ROLE PROMPT GOES HERE`)
             addEmployee()
+        }
+        if (answers.task === 'Update an Employee Role') {
+            // console.log(`ADD ROLE PROMPT GOES HERE`)
+            updateEmployee()
         }
         if (answers.task === 'Done') {
             console.log(`All Done!`)
