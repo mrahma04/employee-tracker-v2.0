@@ -2,6 +2,8 @@
 
 const inquirer = require('inquirer')
 
+const db = require('./db/connection')
+
 const Department = require('./lib/Department')
 const Role = require('./lib/Role')
 const Employee = require('./lib/Employee')
@@ -21,6 +23,8 @@ const addDepartment = () => {
         console.log(answers)
         console.log(`ADD DEPARTMENT SQL FUNCTION GOES HERE`)
         continuePrompt()
+        // department.createDepartment(answers.departmentName)
+        //     .then(() => continuePrompt())
     })
 }
 
@@ -131,7 +135,7 @@ const initialPrompt = () => {
                 .then(() => continuePrompt())
         }
         if (answers.task === 'Add a Department') {
-            console.log(`ADD DEPARTMENT PROMPT GOES HERE`)
+            // console.log(`ADD DEPARTMENT PROMPT GOES HERE`)
             addDepartment()
         }
         if (answers.task === 'Add a Role') {
@@ -148,6 +152,7 @@ const initialPrompt = () => {
         }
         if (answers.task === 'Done') {
             console.log(`All Done!`)
+            db.end()
         }
     })
 }
@@ -163,8 +168,10 @@ const continuePrompt = () => {
     ]).then((answers) => {
         if (answers.continue) {
             initialPrompt()
+        } else {
+            console.log('All Done!')
+            db.end()
         }
-        console.log('All Done!')
     })
 }
 
