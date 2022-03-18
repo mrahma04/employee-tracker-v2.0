@@ -1,200 +1,171 @@
+// mysql --ssl-ca=./certs/server-ca.cer --ssl-cert=./certs/client-cert.cer --ssl-key=./certs/client-key.cer  --host=db.stippled.art --user=root -p
+
 const inquirer = require('inquirer')
-const db = require('./db/connection')
 
-// Display department table
-const displayDepartment = () => {
-    db.promise().query(`SELECT * FROM department`)
-        .then(([rows]) => {
-            console.table(rows)
-        })
-        .then(() => continuePrompt())
-}
+const Department = require('./lib/Department')
+const Role = require('./lib/Role')
+const Employee = require('./lib/Employee')
 
-// Display role table
-const displayRole = () => {
-    db.promise().query(`SELECT * FROM role`)
-        .then(([rows]) => {
-            console.table(rows)
-        })
-}
+const department = new Department()
+const role = new Role()
+const employee = new Employee()
 
-// Display employee table
-const displayEmployee = () => {
-    const sql = `SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, employee.manager_id AS manager
-    FROM employee
-    INNER JOIN role ON employee.role_id = role.id
-    INNER JOIN department ON role.department_id = department.id;`
-
-    db.promise().query(sql)
-        .then(([rows]) => {
-            console.table(rows)
-        })
-}
-
-// Add a department
-const addDepartment = (name) => {
-    const sql = `INSERT INTO department (name)
-                    VALUES(?)`
-    const params = [name]
-    db.promise().query(sql, params, (err, result) => {
-        if (err) throw err
-        // console.log(`${name} department added successfully!`)
-    }).then(() => console.log(`${name} department added successfully!`))
-}
-
-// Add a role
-const addRole = (name, salary, departmentId) => {
-    const sql = `INSERT INTO role (title, salary, department_id)
-                    VALUE(?, ?, ?)`
-    const params = [name, salary, departmentId]
-    db.promise().query(sql, params, (err, result) => {
-        if (err) throw err
-        // console.log(`${name} role added succesfully!`)
-    }).then(() => console.log(`${name} role added succesfully!`))
-}
-
-// Add an employee
-const addEmployee = (firstName, lastName, roleId, managerId) => {
-    const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
-                    VALUES (?, ?, ?, ?)`
-    const params = [firstName, lastName, roleId, managerId]
-    db.promise().query(sql, params, (err, result) => {
-        if (err) throw err
-        // console.log(`${firstName} ${lastName} added successfully!`)
-    }).then(() => console.log(`${firstName} ${lastName} added successfully!`))
-}
-
-// Update an employee role
-const updateEmployeeRole = (employeeId, roleId) => {
-    const sql = `UPDATE employee
-                    SET role_id = ?
-                    WHERE id = ?`
-    const params = [roleId, employeeId]
-    db.promise().query(sql, params, (err, result) => {
-        if (err) throw err
-        // console.log(`${employeeId}'s role updated successfully!`)
-    }).then(() => console.log(`${employeeId}'s role updated successfully!`))
-}
-
-const continuePromptQuestions = [
-    {
-        type: 'confirm',
-        name: 'continue',
-        message: 'Would you like to continue?',
-        default: false
-    }
-]
-
-const continuePrompt = () => {
-    inquirer.prompt(continuePromptQuestions).then((answers) => {
-        if (answers.continue) {
-            initialPrompt()
+const addDepartment = () => {
+    return inquirer.prompt([
+        {
+            type: 'input',
+            name: 'departmentName',
+            message: 'Enter Department name:'
         }
+    ]).then(answers => {
+        console.log(answers)
+        console.log(`ADD DEPARTMENT SQL FUNCTION GOES HERE`)
+        continuePrompt()
     })
 }
 
-// Create initial prompt
+const addRole = () => {
+    return inquirer.prompt([
+        {
+            type: 'input',
+            name: 'roleName',
+            message: 'Enter Role name:'
+        },
+        {
+            type: 'input',
+            name: 'salary',
+            message: 'Enter Role salary:'
+        },
+        {
+            type: 'input',
+            name: 'roleDepartment',
+            message: 'Enter Role department:'
+        }
+    ]).then(answers => {
+        console.log(answers)
+        console.log(`ADD ROLE SQL FUNCTION GOES HERE`)
+        continuePrompt()
+    })
+}
+
+const addEmployee = () => {
+    return inquirer.prompt([
+        {
+            type: 'input',
+            name: 'firstName',
+            message: `Enter new employee's first name:`
+        },
+        {
+            type: 'input',
+            name: 'lastName',
+            message: `Enter new employee's last name:`
+        },
+        {
+            type: 'input',
+            name: 'employeeRole',
+            message: `Enter new employee's role:`
+        },
+        {
+            type: 'input',
+            name: 'employeeManager',
+            message: `Enter new employee's manager:`
+        }
+    ]).then(answers => {
+        console.log(answers)
+        console.log(`ADD EMPLOYEE SQL FUNCTION GOES HERE`)
+        continuePrompt()
+    })
+}
+
+const employeeList = ['Malia Brown', 'Sarah Lourd']
+const roleList = ['Salesperson', 'Lead Engineer']
+const departmentList = ['Sales', 'Engineering']
+
+
+const updateEmployee = () => {
+    return inquirer.prompt([
+        {
+            type: 'list',
+            name: 'employeeName',
+            message: `Which employee's role would you like to update?`,
+            choices: employeeList
+        },
+        {
+            type: 'list',
+            name: 'employeeRole',
+            message: `Select new role:`,
+            choices: roleList
+        }
+    ]).then(answers => {
+        console.log(answers)
+        console.log(`UPDATE EMPLOYEE SQL FUNCTION GOES HERE`)
+        continuePrompt()
+    })
+}
+
 const initialPrompt = () => {
     return inquirer.prompt([
         {
             type: 'list',
             name: 'task',
             message: 'What would you like to do?',
-            choices: ['View all Departments', 'View all Roles', 'View all Employees', 'Add a Department', 'Add a Role', 'Add an Employee', 'Update an Employee', 'Done']
+            choices: ['View all Departments', 'View all Roles', 'View all Employees', 'Add a Department', 'Add a Role', 'Add an Employee', 'Update an Employee Role', 'Done']
         }
     ]).then(answers => {
         if (answers.task === 'View all Departments') {
-            displayDepartment()
+            // console.log(`DEPARTMENT TABLE GOES HERE`)
+            // continuePrompt()
+            department.viewDepartment()
+                .then(() => continuePrompt())
         }
         if (answers.task === 'View all Roles') {
-            displayRole()
+            // console.log(`ROLE TABLE GOES HERE`)
+            // continuePrompt()
+            role.viewRole()
+                .then(() => continuePrompt())
         }
         if (answers.task === 'View all Employees') {
-            displayEmployee()
+            // console.log(`EMPLOYEE TABLE GOES HERE`)
+            // continuePrompt()
+            employee.viewEmployee()
+                .then(() => continuePrompt())
         }
         if (answers.task === 'Add a Department') {
-            // addDepartment('Department of Transportation')
-            inquirer.prompt([
-                {
-                    type: 'input',
-                    name: 'name',
-                    message: 'Enter Department name:'
-                }
-            ])
-                .then(answers => addDepartment(answers.name))
-                .then(() => displayDepartment())
+            console.log(`ADD DEPARTMENT PROMPT GOES HERE`)
+            addDepartment()
         }
         if (answers.task === 'Add a Role') {
-            inquirer.prompt([
-                {
-                    type: 'input',
-                    name: 'name',
-                    message: 'Enter Role name:'
-                },
-                {
-                    type: 'input',
-                    name: 'salary',
-                    message: 'Enter Salary:'
-                },
-                {
-                    type: 'input',
-                    name: 'roleId',
-                    message: 'Enter Role ID:'
-                }
-            ])
-                .then(answers => addRole(answers.name, answers.salary, answers.roleId))
-                .then(() => displayRole())
+            console.log(`ADD ROLE PROMPT GOES HERE`)
+            addRole()
         }
         if (answers.task === 'Add an Employee') {
-            inquirer.prompt([
-                {
-                    type: 'input',
-                    name: 'firstName',
-                    message: 'Enter Employee First Name:'
-                },
-                {
-                    type: 'input',
-                    name: 'lastName',
-                    message: 'Enter Employee Last Name:'
-                },
-                {
-                    type: 'input',
-                    name: 'roleId',
-                    message: 'Enter Role ID:'
-                },
-                {
-                    type: 'input',
-                    name: 'managerId',
-                    message: 'Enter Manager ID (leave blank if none):'
-                }
-            ])
-                .then(answers => {
-                    let managerId
-                    if (answers.managerId === '') {
-                        managerId === null
-                    }
-                    addEmployee(answers.firstName, answers.lastName, answers.roleId, managerId)
-                })
-                .then(() => displayEmployee())
+            console.log(`ADD EMPLOYEE PROMPT GOES HERE`)
+            addEmployee()
         }
-        if (answers.task === 'Update an Employee') {
-            inquirer.prompt([
-                {
-                    type: 'input',
-                    name: 'employeeId',
-                    message: 'Enter Employee ID:'
-                },
-                {
-                    type: 'input',
-                    name: 'roleId',
-                    message: 'Enter new Role Id:'
-                }
-            ])
-                .then(answers => updateEmployeeRole(answers.employeeId, answers.roleId))
-                .then(() => displayEmployee())
+        if (answers.task === 'Update an Employee Role') {
+            console.log(`UPDATE EMPLOYEE ROLE PROMPT GOES HERE`)
+            updateEmployee()
+        }
+        if (answers.task === 'Done') {
+            console.log(`All Done!`)
         }
     })
 }
 
+const continuePrompt = () => {
+    return inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'continue',
+            message: 'Would you like to continue?',
+            default: false
+        }
+    ]).then((answers) => {
+        if (answers.continue) {
+            initialPrompt()
+        }
+        console.log('All Done!')
+    })
+}
+
 initialPrompt()
-    // .then(() => displayDepartment())

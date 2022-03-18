@@ -1,7 +1,7 @@
 const mysql = require('mysql2')
 const fs = require('fs')
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
     host: 'db.stippled.art',
     ssl: {
         ca: fs.readFileSync('././certs/server-ca.cer'),
