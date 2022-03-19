@@ -185,11 +185,11 @@ const initialPrompt = () => {
             addRole()
         }
         if (answers.task === 'Add an Employee') {
-            console.log(`ADD EMPLOYEE PROMPT GOES HERE`)
+            // console.log(`ADD EMPLOYEE PROMPT GOES HERE`)
             addEmployee()
         }
         if (answers.task === 'Update an Employee Role') {
-            console.log(`UPDATE EMPLOYEE ROLE PROMPT GOES HERE`)
+            // console.log(`UPDATE EMPLOYEE ROLE PROMPT GOES HERE`)
             updateEmployee()
         }
         if (answers.task === 'Done') {
