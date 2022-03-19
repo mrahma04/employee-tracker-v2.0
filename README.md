@@ -1,5 +1,17 @@
 # employee-tracker-v2.0
 
+
+### This is a Node.js command-line Content Management Systems (CMS) application. It has an interface that allows non-developers to easily view and interact with information stored in a backend MySQL database. 
+
+## To use this Application
+
+- Clone repo on a machine running Node.js
+- Navigate to local repo directory
+- Install Node modules using `npm i`
+- Type :pencil2:`npm start` to start app
+
+[See Video](https://watch.screencastify.com/v/JRof8Ubkxqj1d8BgtiwK)
+
 ### User Story
 ```
 AS A business owner
