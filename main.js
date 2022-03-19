@@ -181,7 +181,7 @@ const initialPrompt = () => {
             addDepartment()
         }
         if (answers.task === 'Add a Role') {
-            console.log(`ADD ROLE PROMPT GOES HERE`)
+            // console.log(`ADD ROLE PROMPT GOES HERE`)
             addRole()
         }
         if (answers.task === 'Add an Employee') {
