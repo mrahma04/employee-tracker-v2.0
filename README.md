@@ -1,4 +1,4 @@
-# employee-tracker-v2.0
+# Employee Tracker v2.0 :office_worker: :railway_track:
 
 #### This is a Node.js Content Management Systems (CMS) application. It has a command-line interface that allows non-developers to easily view and interact with information stored in a backend MySQL database. 
 
