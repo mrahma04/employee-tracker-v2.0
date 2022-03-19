@@ -57,65 +57,72 @@ const addRole = () => {
                         // placing the .then here is very important
                         // it'll wait for the crateRole funciton to finish and THEN provide continuePrompt
                         .then(() => continuePrompt())
-                    // continuePrompt()
                 })
-            // .then(() => continuePrompt())
+        })
+}
+
+const addEmployee = () => {
+
+    role.getRoles()
+        .then(roles => {
+            inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'firstName',
+                    message: `Enter new employee's first name:`
+                },
+                {
+                    type: 'input',
+                    name: 'lastName',
+                    message: `Enter new employee's last name:`
+                },
+                {
+                    type: 'list',
+                    name: 'employeeRole',
+                    message: 'Select new Employee role:',
+                    choices: roles
+                },
+                {
+                    type: 'input',
+                    name: 'employeeManager',
+                    message: `Enter new employee's manager:`
+                }
+            ]).then(answers => {
+                employee.createEmployee(answers.firstName, answers.lastName, answers.employeeRole, answers.employeeManager)
+                    .then(() => continuePrompt())
+            })
         })
 
     // return inquirer.prompt([
     //     {
     //         type: 'input',
-    //         name: 'roleName',
-    //         message: 'Enter Role name:'
+    //         name: 'firstName',
+    //         message: `Enter new employee's first name:`
     //     },
     //     {
     //         type: 'input',
-    //         name: 'salary',
-    //         message: 'Enter Role salary:'
+    //         name: 'lastName',
+    //         message: `Enter new employee's last name:`
     //     },
     //     {
     //         type: 'input',
-    //         name: 'roleDepartment',
-    //         message: 'Enter Role department:'
+    //         name: 'employeeRole',
+    //         message: `Enter new employee's role:`
+    //     },
+    //     {
+    //         type: 'input',
+    //         name: 'employeeManager',
+    //         message: `Enter new employee's manager:`
     //     }
     // ]).then(answers => {
     //     console.log(answers)
-    //     console.log(`ADD ROLE SQL FUNCTION GOES HERE`)
+    //     console.log(`ADD EMPLOYEE SQL FUNCTION GOES HERE`)
     //     continuePrompt()
     // })
 }
 
-const addEmployee = () => {
-    return inquirer.prompt([
-        {
-            type: 'input',
-            name: 'firstName',
-            message: `Enter new employee's first name:`
-        },
-        {
-            type: 'input',
-            name: 'lastName',
-            message: `Enter new employee's last name:`
-        },
-        {
-            type: 'input',
-            name: 'employeeRole',
-            message: `Enter new employee's role:`
-        },
-        {
-            type: 'input',
-            name: 'employeeManager',
-            message: `Enter new employee's manager:`
-        }
-    ]).then(answers => {
-        console.log(answers)
-        console.log(`ADD EMPLOYEE SQL FUNCTION GOES HERE`)
-        continuePrompt()
-    })
-}
-
-const employeeList = ['Malia Brown', 'Sarah Lourd']
-const roleList = ['Salesperson', 'Lead Engineer']
+// const employeeList = ['Malia Brown', 'Sarah Lourd']
+// const roleList = ['Salesperson', 'Lead Engineer']
 // const departmentList = ['Sales', 'Engineering']
 
 const updateEmployee = () => {
@@ -214,3 +221,9 @@ initialPrompt()
 
 // role.createRole('Salesperson III', 100000, 'Sales')
     // .then(values => console.log(values))
+
+// role.getRoles()
+//     .then(values => console.log(values))
+
+// employee.createEmployee('Salesperson')
+//     .then(values => console.log(values))
