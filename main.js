@@ -13,43 +13,76 @@ const role = new Role()
 const employee = new Employee()
 
 const addDepartment = () => {
-    return inquirer.prompt([
+    inquirer.prompt([
         {
             type: 'input',
             name: 'departmentName',
             message: 'Enter Department name:'
         }
     ]).then(answers => {
-        console.log(answers)
-        console.log(`ADD DEPARTMENT SQL FUNCTION GOES HERE`)
-        continuePrompt()
-        // department.createDepartment(answers.departmentName)
-        //     .then(() => continuePrompt())
+        // console.log(answers)
+        // console.log(`ADD DEPARTMENT SQL FUNCTION GOES HERE`)
+        // continuePrompt()
+        department.createDepartment(answers.departmentName)
+            // wait for the create function to finished and THEN give continuePrompt
+            .then(() => continuePrompt())
     })
 }
 
 const addRole = () => {
-    return inquirer.prompt([
-        {
-            type: 'input',
-            name: 'roleName',
-            message: 'Enter Role name:'
-        },
-        {
-            type: 'input',
-            name: 'salary',
-            message: 'Enter Role salary:'
-        },
-        {
-            type: 'input',
-            name: 'roleDepartment',
-            message: 'Enter Role department:'
-        }
-    ]).then(answers => {
-        console.log(answers)
-        console.log(`ADD ROLE SQL FUNCTION GOES HERE`)
-        continuePrompt()
-    })
+    department.listDepartment()
+        .then(answers => {
+            inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'title',
+                    message: 'Enter Role name:'
+                },
+                {
+                    type: 'input',
+                    name: 'salary',
+                    message: 'Enter Role salary:'
+                },
+                {
+                    type: 'list',
+                    name: 'roleDeptId',
+                    message: 'Select Department:',
+                    choices: answers
+                }
+            ])
+                .then(answers => {
+                    // console.log(answers)
+                    // console.log(`ADD ROLE SQL FUNCTION GOES HERE`)
+                    role.createRole(answers.title, answers.salary, answers.roleDeptId)
+                        // placing the .then here is very important
+                        // it'll wait for the crateRole funciton to finish and THEN provide continuePrompt
+                        .then(() => continuePrompt())
+                    // continuePrompt()
+                })
+            // .then(() => continuePrompt())
+        })
+
+    // return inquirer.prompt([
+    //     {
+    //         type: 'input',
+    //         name: 'roleName',
+    //         message: 'Enter Role name:'
+    //     },
+    //     {
+    //         type: 'input',
+    //         name: 'salary',
+    //         message: 'Enter Role salary:'
+    //     },
+    //     {
+    //         type: 'input',
+    //         name: 'roleDepartment',
+    //         message: 'Enter Role department:'
+    //     }
+    // ]).then(answers => {
+    //     console.log(answers)
+    //     console.log(`ADD ROLE SQL FUNCTION GOES HERE`)
+    //     continuePrompt()
+    // })
 }
 
 const addEmployee = () => {
@@ -83,8 +116,7 @@ const addEmployee = () => {
 
 const employeeList = ['Malia Brown', 'Sarah Lourd']
 const roleList = ['Salesperson', 'Lead Engineer']
-const departmentList = ['Sales', 'Engineering']
-
+// const departmentList = ['Sales', 'Engineering']
 
 const updateEmployee = () => {
     return inquirer.prompt([
@@ -176,3 +208,9 @@ const continuePrompt = () => {
 }
 
 initialPrompt()
+
+// department.listDepartment()
+//     .then(answers => console.log(answers))
+
+// role.createRole('Salesperson III', 100000, 'Sales')
+    // .then(values => console.log(values))
