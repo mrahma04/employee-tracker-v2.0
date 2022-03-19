@@ -126,24 +126,52 @@ const addEmployee = () => {
 // const departmentList = ['Sales', 'Engineering']
 
 const updateEmployee = () => {
-    return inquirer.prompt([
-        {
-            type: 'list',
-            name: 'employeeName',
-            message: `Which employee's role would you like to update?`,
-            choices: employeeList
-        },
-        {
-            type: 'list',
-            name: 'employeeRole',
-            message: `Select new role:`,
-            choices: roleList
-        }
-    ]).then(answers => {
-        console.log(answers)
-        console.log(`UPDATE EMPLOYEE SQL FUNCTION GOES HERE`)
-        continuePrompt()
-    })
+
+    employee.collectEmployeesAndRoles()
+        .then(([employees, roles]) => {
+            inquirer.prompt([
+                {
+                    type: 'list',
+                    name: 'employeeName',
+                    message: `Which employee's role do you want to update?`,
+                    choices: employees
+                },
+                {
+                    type: 'list',
+                    name: 'employeeRole',
+                    message: `Select employee's new role:`,
+                    choices: roles
+                }
+            ]).then(answers => {
+                employee.updateEmployee(answers.employeeName, answers.employeeRole)
+                    .then(() => continuePrompt())
+            })
+        })
+
+    // employee.listEmployees()
+    //     .then(values => {
+    //         inquirer.prompt([
+    //             {
+    //                 type: 'list',
+    //                 name: 'employeeName',
+    //                 message: `Which employee's role do you want to update?`,
+    //                 choices: values
+    //             }
+    //         ]).then(answers => {
+    //             let employee
+    //             role.getRoles()
+    //                 .then(roles => {
+    //                     inquirer.prompt([
+    //                         {
+    //                             type: 'list',
+    //                             name: 'employeeRole',
+    //                             message: `Select employee's new role:`,
+    //                             choices: roles
+    //                         }
+    //                     ]).then(answers => console.log(answers))
+    //                 }).then(answers => console.log(answers))
+    //         })
+    //     })
 }
 
 const initialPrompt = () => {
@@ -226,4 +254,10 @@ initialPrompt()
 //     .then(values => console.log(values))
 
 // employee.createEmployee('Salesperson')
+//     .then(values => console.log(values))
+
+// employee.listEmployees()
+//     .then(values => console.log(values))
+
+// employee.collectEmployeeRoles()
 //     .then(values => console.log(values))
