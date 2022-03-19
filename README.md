@@ -9,7 +9,7 @@
 - Install Node modules using `npm i`
 - Type :pencil2:`npm start` to start app
 
-[See Walkthrough Video](https://watch.screencastify.com/v/JRof8Ubkxqj1d8BgtiwK)
+[See Walkthrough Video](https://drive.google.com/file/d/1l9BFkCazykJpPWnsXDW7ZYggEzvqSGG2/view)
 
 ### User Story
 ```
