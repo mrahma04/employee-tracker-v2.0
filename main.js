@@ -85,7 +85,7 @@ const addEmployee = () => {
                 {
                     type: 'input',
                     name: 'employeeManager',
-                    message: `Enter new employee's manager:`
+                    message: `Enter new employee's manager (leave blank if none):`
                 }
             ]).then(answers => {
                 employee.createEmployee(answers.firstName, answers.lastName, answers.employeeRole, answers.employeeManager)
@@ -147,31 +147,6 @@ const updateEmployee = () => {
                     .then(() => continuePrompt())
             })
         })
-
-    // employee.listEmployees()
-    //     .then(values => {
-    //         inquirer.prompt([
-    //             {
-    //                 type: 'list',
-    //                 name: 'employeeName',
-    //                 message: `Which employee's role do you want to update?`,
-    //                 choices: values
-    //             }
-    //         ]).then(answers => {
-    //             let employee
-    //             role.getRoles()
-    //                 .then(roles => {
-    //                     inquirer.prompt([
-    //                         {
-    //                             type: 'list',
-    //                             name: 'employeeRole',
-    //                             message: `Select employee's new role:`,
-    //                             choices: roles
-    //                         }
-    //                     ]).then(answers => console.log(answers))
-    //                 }).then(answers => console.log(answers))
-    //         })
-    //     })
 }
 
 const initialPrompt = () => {
